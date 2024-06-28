@@ -1,10 +1,13 @@
-import globalStyles from './styles/globalStyles';
-import {toast, ToastContainer} from 'react-toastify';
+import styled from 'styled-components';
+import { toast, ToastContainer } from 'react-toastify';
+import { useState, useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
+import Form from './components/forms';
+import Grid from './components/Grid';
+import axios from 'axios';
 
 const Container = styled.div`
-  witdh: 100%;
-  max-witdh: 800px;
+  width: 100%;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
@@ -12,15 +15,35 @@ const Container = styled.div`
   gap: 10px;
 `;
 
+const Title = styled.h2``;
 
+function App() {
+  const [users, setUsers] = useState([]);
+  const [onEdit, setOnEdit] = useState(null);
 
-function app (){
+  const getUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:8800');
+      setUsers(response.data.sort((a, b) => (a.nome_tarefa > b.nome_tarefa ? 1 : -1)));
+    } catch (error) {
+      toast.error('Erro ao buscar dados');
+    }
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   return (
     <>
-    <ToastContainer autoClose={3000} position={toast.POSITION.BOTTOM.LEFT} />
-      <globalStyles />
+      <Container>
+        <Title>Tarefas</Title>
+        <Form onEdit={onEdit} setOnEdit={setOnEdit} getUsers={getUsers} />
+        <Grid users={users} setUsers={setUsers} setOnEdit={setOnEdit} />
+      </Container>
+      <ToastContainer autoClose={3000} position="bottom-left" />
     </>
   );
-};
+}
 
-export default app;
+export default App;
