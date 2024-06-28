@@ -1,10 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { FaTrash, FaEdit } from 'react-icons/fa';
+import { FaTrash, FaEdit, FaCheck } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import {format} from 'date-fns';
 
 const Table = styled.table`
+  background-color: #fff;
   width: 100%;
   border-color: #fff;
   padding: 20px;
@@ -24,9 +26,10 @@ export const Th = styled.th`
 `;
 
 export const Td = styled.td`
-  padding-top: 15px;
+  padding-top: ${(props) => (props.paddingTop ? props.paddingTop : '15px')};
   text-align: ${(props) => (props.alignCenter ? 'center' : 'start')};
   width: ${(props) => (props.width ? props.width : 'auto')};
+  color: ${(props) => (props.color ? props.color : '#000')};
 `;
 export const TBody = styled.tbody``;
 
@@ -46,13 +49,14 @@ const Grid = ({ users, setUsers, setOnEdit }) => {
     }
   };
 
+  
   return (
     <Table>
       <Thead>
         <Tr>
-          <Th>Tarefa</Th>
+          <Th>Titulo</Th>
           <Th>Descrição</Th>
-          <Th>Estado</Th>
+          <Th>Prazo</Th>
           <Th>Ações</Th>
         </Tr>
       </Thead>
@@ -61,16 +65,44 @@ const Grid = ({ users, setUsers, setOnEdit }) => {
           <Tr key={i}>
             <Td width="25%">{item.nome_tarefa}</Td>
             <Td width="40%">{item.descricao_tarefa}</Td>
-            <Td width="10%">{item.estado_tarefa}</Td>
-            <Td alignCenter width="10%">
-              <FaEdit onClick={() => handleEdit(item)} />
-            </Td>
-            <Td width="5%">
-              <FaTrash onClick={() => handleDelete(item.id)} />
+            <Td width="10%">{format(new Date(item.prazo_tarefa), 'dd-MM-yyyy')}</Td>
+            <Td paddingTop={10} width="15%">
+              <Td color="#57C4E5"width="5%">
+                <FaEdit onClick={() => handleEdit(item)} />
+              </Td>
+              <Td color='#3a7d44' width="5%">
+                <FaCheck onClick={() => handleDelete(item.id)}/>
+              </Td>
+              {/* <Td color='red' width="5%">
+                <FaTrash onClick={() => handleDelete(item.id)} />
+              </Td> */}
             </Td>
           </Tr>
         ))}
       </TBody>
+
+{/*       
+
+      <TBody>
+        {users.map((item, i) => (
+          <Tr key={i}>
+            <Td width="25%">{item.nome_tarefa}</Td>
+            <Td width="40%">{item.descricao_tarefa}</Td>
+            <Td width="10%">{format(new Date(item.prazo_tarefa), 'dd-MM-yyyy')}</Td>
+            <Td paddingTop={10} width="15%">
+              <Td width="5%">
+                <FaEdit onClick={() => handleEdit(item)} />
+              </Td>
+              <Td color='green' width="5%">
+                <FaCheck onClick={() => handleDelete(item.id)}/>
+              </Td>
+              <Td color='red' width="5%">
+                <FaTrash onClick={() => handleDelete(item.id)} />
+              </Td>
+            </Td>
+          </Tr>
+        ))}
+      </TBody> */}
     </Table>
   );
 };

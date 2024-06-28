@@ -7,15 +7,24 @@ import Grid from './components/Grid';
 import axios from 'axios';
 
 const Container = styled.div`
-  width: 100%;
+  margin: 0 auto;
+  width: 60%;
+  padding-bottom: 20px;
+  min-height: 50vh;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  background-color: #064789;
+  border-radius: 7px;
+  box-shadow: 0 0 5px #ccc;
 `;
 
-const Title = styled.h2``;
+const Title = styled.h1`
+  font-size: 40px;
+  color: #fff;
+`;
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -37,7 +46,7 @@ function App() {
   return (
     <>
       <Container>
-        <Title>Tarefas</Title>
+        <Title>Lista de tarefas</Title>
         <Form onEdit={onEdit} setOnEdit={setOnEdit} getUsers={getUsers} />
         <Grid users={users} setUsers={setUsers} setOnEdit={setOnEdit} />
       </Container>

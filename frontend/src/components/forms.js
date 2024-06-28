@@ -21,7 +21,7 @@ const Button = styled.button`
   cursor: pointer;
   border: none;
   border-radius: 5px;
-  background-color: #2c73d2;
+  background-color: #57C4E5;
   color: #fff;
   height: 42px;
 `;
@@ -33,6 +33,14 @@ const Input = styled.input`
   border-radius: 5px;
   height: 40px;
 `;
+const InputDes = styled.input`
+  width: 370px;
+  padding: 0 10px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  height: 40px;
+`;
+
 
 const InputArea = styled.div`
   display: flex;
@@ -47,7 +55,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
       const user = ref.current;
       user.nome_tarefa.value = onEdit.nome_tarefa;
       user.descricao_tarefa.value = onEdit.descricao_tarefa;
-      user.estado_tarefa.value = onEdit.estado_tarefa;
+      user.prazo_tarefa.value = onEdit.prazo_tarefa;
     }
   }, [onEdit]);
 
@@ -56,14 +64,14 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
 
     const user = ref.current;
 
-    if (!user.nome_tarefa.value || !user.descricao_tarefa.value || !user.estado_tarefa.value) {
+    if (!user.nome_tarefa.value || !user.descricao_tarefa.value || !user.prazo_tarefa.value) {
       return toast.error('Preencha todos os campos');
     }
 
     const userData = {
       nome_tarefa: user.nome_tarefa.value,
       descricao_tarefa: user.descricao_tarefa.value,
-      estado_tarefa: user.estado_tarefa.value,
+      prazo_tarefa: user.prazo_tarefa.value,
     };
 
     try {
@@ -82,22 +90,22 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
 
     user.nome_tarefa.value = "";
     user.descricao_tarefa.value = "";
-    user.estado_tarefa.value = "";
+    user.prazo_tarefa.value = "";
   };
 
   return (
-    <FormContainer ref={ref} onSubmit={handleSubmit}>
+    <FormContainer ref={ref} onSubmit={handleSubmit}> 
       <InputArea>
-        <Label>Tarefa</Label>
+        <Label>Titulo</Label>
         <Input name="nome_tarefa" />
       </InputArea>
       <InputArea>
         <Label>Descrição</Label>
-        <Input name="descricao_tarefa" />
+        <InputDes name="descricao_tarefa" />
       </InputArea>
       <InputArea>
-        <Label>Estado</Label>
-        <Input name="estado_tarefa" type="date"/>
+        <Label>Prazo</Label>
+        <Input name="prazo_tarefa" type="date"/>
       </InputArea>
       <Button type="submit">Salvar</Button>
     </FormContainer>

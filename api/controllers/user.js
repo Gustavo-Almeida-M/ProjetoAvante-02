@@ -12,12 +12,12 @@ export const getUsers = (req, res) => {
 
 export const addUser = (req, res) => {
     const q =
-        "INSERT INTO tarefas (nome_tarefa, descricao_tarefa, estado_tarefa) VALUES (?)";
+        "INSERT INTO tarefas (nome_tarefa, descricao_tarefa, prazo_tarefa) VALUES (?)";
 
     const values = [
         req.body.nome_tarefa,
         req.body.descricao_tarefa,
-        req.body.estado_tarefa,
+        req.body.prazo_tarefa,
     ];
 
     db.query(q, [values], (err) => {
@@ -32,12 +32,12 @@ export const addUser = (req, res) => {
 
 export const updateUser = (req, res) => {
     const q = 
-        "UPDATE tarefas SET nome_tarefa = ?, descricao_tarefa = ?, estado_tarefa = ? WHERE id = ?";
+        "UPDATE tarefas SET nome_tarefa = ?, descricao_tarefa = ?, prazo_tarefa = ? WHERE id = ?";
 
     const values = [
         req.body.nome_tarefa,
         req.body.descricao_tarefa,
-        req.body.estado_tarefa,
+        req.body.prazo_tarefa,
     ];
 
     db.query(q, [...values, req.params.id], (err) => {
