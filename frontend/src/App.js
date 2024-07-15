@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Form from './components/forms';
 import Grid from './components/Grid';
 import axios from 'axios';
+import Concluidos from './components/Concluidos';
 
 const Container = styled.div`
   margin: 0 auto;
@@ -49,6 +50,7 @@ function App() {
         <Title>Lista de tarefas</Title>
         <Form onEdit={onEdit} setOnEdit={setOnEdit} getUsers={getUsers} />
         <Grid users={users} setUsers={setUsers} setOnEdit={setOnEdit} />
+        <Concluidos users={users} setUsers={setUsers} setOnEdit={setOnEdit} />
       </Container>
       <ToastContainer autoClose={3000} position="bottom-left" />
     </>
