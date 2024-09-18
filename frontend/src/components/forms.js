@@ -33,8 +33,8 @@ const Input = styled.input`
   border-radius: 5px;
   height: 40px;
 `;
-const InputDes = styled.input`
-  width: 370px;
+const InputLongo = styled.input`
+  width: 250px;
   padding: 0 10px;
   border: 1px solid #bbb;
   border-radius: 5px;
@@ -53,9 +53,9 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
   useEffect(() => {
     if (onEdit) {
       const user = ref.current;
-      user.nome_tarefa.value = onEdit.nome_tarefa;
-      user.descricao_tarefa.value = onEdit.descricao_tarefa;
-      user.prazo_tarefa.value = onEdit.prazo_tarefa;
+      user.nome_aluno.value = onEdit.nome_aluno;
+      user.ira_aluno.value = onEdit.ira_aluno;
+      user.curso_aluno.value = onEdit.curso_aluno;
     }
   }, [onEdit]);
 
@@ -64,48 +64,51 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
 
     const user = ref.current;
 
-    if (!user.nome_tarefa.value || !user.descricao_tarefa.value || !user.prazo_tarefa.value) {
+    if (!user.nome_aluno.value || !user.ira_aluno.value || !user.curso_aluno.value) {
       return toast.error('Preencha todos os campos');
     }
 
     const userData = {
-      nome_tarefa: user.nome_tarefa.value,
-      descricao_tarefa: user.descricao_tarefa.value,
-      prazo_tarefa: user.prazo_tarefa.value,
+      nome_aluno: user.nome_aluno.value,
+      ira_aluno: user.ira_aluno.value,
+      curso_aluno: user.curso_aluno.value
     };
 
     try {
       if (onEdit) {
-        await axios.put(`http://localhost:8800/${onEdit.id}`, userData);
-        toast.success("Tarefa atualizada com sucesso");
+        console.log("Aqui é o onEdit: " + onEdit.id_aluno);
+
+        await axios.put(`http://localhost:8800/${onEdit.id_aluno}`, userData);
+        toast.success("Aluno atualizada com sucesso");
       } else {
         await axios.post("http://localhost:8800", userData);
-        toast.success("Tarefa criada com sucesso");
+        toast.success("Aluno criado com sucesso");
       }
       setOnEdit(null);
       getUsers();
     } catch (error) {
-      toast.error("Erro ao salvar a tarefa");
+      console.log(error);
+
     }
 
-    user.nome_tarefa.value = "";
-    user.descricao_tarefa.value = "";
-    user.prazo_tarefa.value = "";
+    user.nome_aluno.value = "";
+    user.ira_aluno.value = "";
+    user.curso_aluno.value = "";
   };
 
   return (
-    <FormContainer ref={ref} onSubmit={handleSubmit}> 
+    <FormContainer ref={ref} onSubmit={handleSubmit}>
       <InputArea>
-        <Label>Titulo</Label>
-        <Input name="nome_tarefa" />
+        <Label>Nome</Label>
+        <InputLongo name="nome_aluno" />
       </InputArea>
       <InputArea>
-        <Label>Descrição</Label>
-        <InputDes name="descricao_tarefa" />
+        <Label>Curso</Label>
+        <InputLongo name="curso_aluno" />
       </InputArea>
       <InputArea>
-        <Label>Prazo</Label>
-        <Input name="prazo_tarefa" type="date"/>
+        <Label>Ira</Label>
+        <Input name="ira_aluno" />
       </InputArea>
       <Button type="submit">Salvar</Button>
     </FormContainer>
